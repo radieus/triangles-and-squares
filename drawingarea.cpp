@@ -6,6 +6,11 @@ DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
     image = QImage(width(), height(), QImage::Format_BGR888);
 }
 
+void DrawingArea::_resize()
+{
+    image = QImage(width(), height(), QImage::Format_BGR888);
+}
+
 bool DrawingArea::setPixel(int x, int y, Color color)
 {
     uchar* ptr = image.bits();
@@ -25,7 +30,6 @@ void DrawingArea::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
-    QImage image = QImage(width(), height(), QImage::Format_BGR888);
     uchar* ptr = image.bits();
     uchar* end_ptr = ptr + image.sizeInBytes();
 
@@ -34,16 +38,12 @@ void DrawingArea::paintEvent(QPaintEvent*)
         ptr++;
     }
 
-    setPixel(50, 50, Color(0,0,0));
-
-
     for (const auto &shape : shapes) {
           std::vector<Pixel> pixels = shape->getPixels();
           for (Pixel pix: pixels){
               setPixel(pix.x, pix.y, Color(0, 0, 0));
           }
       }
-
 
     painter.drawImage(0, 0, image);
 }
@@ -78,21 +78,13 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             break;
         }
 
-        qDebug() <<"stend "<< startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
+        qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
 
         std::unique_ptr<Shape> line = std::make_unique<Line>(startPoint, endPoint);
 
-        qDebug() << "2";
-
         shapes.push_back(std::move(line));
 
-         qDebug() << "3";
-
         update();
-
-         qDebug() << "4";
-
-        //qDebug() << line->getPoint(0).x() << " " << line->getPoint(0).y() << " " << line->getPoint(1).x() << " " << line->getPoint(1).y();
 
     }
 }

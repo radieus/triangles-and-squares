@@ -22,6 +22,7 @@ public:
     void clearImage();
     bool setPixel(int x, int y, Color color);
     enum myMode { DRAW, ERASE };
+    void _resize();
 
 protected:
     void paintEvent(QPaintEvent *) override;
