@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QSizePolicy>
 #include <drawingarea.h>
+#include <QColorDialog>
+#include <QColor>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +23,10 @@ private slots:
     void on_drawLineButton_toggled(bool checked);
 
     void on_drawCircleButton_toggled(bool checked);
+
+    void on_pushButton_clicked();
+
+    void on_radioButton_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

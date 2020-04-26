@@ -13,6 +13,11 @@ void DrawingArea::_resize()
     image = QImage(width(), height(), QImage::Format_BGR888);
 }
 
+bool operator==(const Pixel& lhs, const Pixel& rhs)
+{
+    return lhs.x== rhs.x && lhs.y == rhs.y;
+}
+
 bool DrawingArea::setPixel(int x, int y, Color color)
 {
     uchar* ptr = image.bits();
@@ -59,7 +64,11 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
             startPoint = event->pos();
             break;
         case ERASE:
-            drawing = true;
+            drawing = false;
+            startPoint = event->pos();
+            break;
+        case TRANSFORM:
+            drawing = false;
             startPoint = event->pos();
             break;
         }
@@ -76,6 +85,12 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             break;
         case ERASE:
             drawing = false;
+            myshape = SELECT;
+            endPoint = event->pos();
+            break;
+        case TRANSFORM:
+            drawing = false;
+            myshape = SELECT;
             endPoint = event->pos();
             break;
         }
@@ -100,6 +115,19 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         case POLYGON:
             break;
 
+        case SELECT:
+        {
+            Pixel tmp_pix(startPoint.x(), startPoint.y());
+            for (const auto &shape : shapes) {
+                  std::vector<Pixel> pixels = shape->getPixels();
+                  for (Pixel pix: pixels){
+                      if (tmp_pix == pix)
+                         //active = shape;
+                  }
+            }
+
+            break;
+        }
         }
     }
 }

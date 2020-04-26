@@ -21,8 +21,8 @@ public:
     explicit DrawingArea(QWidget *parent = nullptr);
     void clearImage();
     bool setPixel(int x, int y, Color color);
-    enum myMode { DRAW, ERASE };
-    enum myShape { LINE, CIRCLE, POLYGON };
+    enum myMode { DRAW, ERASE, TRANSFORM };
+    enum myShape { LINE, CIRCLE, POLYGON, SELECT};
     void _resize();
 
     myMode mymode = DRAW;
@@ -39,7 +39,7 @@ private:
     bool drawing = false;
     QPoint startPoint;
     QPoint endPoint;
-
+    std::unique_ptr<Shape> active;
     std::vector<std::unique_ptr<Shape> > shapes;
 
 };
