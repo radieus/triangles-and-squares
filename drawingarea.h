@@ -22,7 +22,11 @@ public:
     void clearImage();
     bool setPixel(int x, int y, Color color);
     enum myMode { DRAW, ERASE };
+    enum myShape { LINE, CIRCLE, POLYGON };
     void _resize();
+
+    myMode mymode = DRAW;
+    myShape myshape = LINE;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -35,7 +39,6 @@ private:
     bool drawing = false;
     QPoint startPoint;
     QPoint endPoint;
-    myMode mode = DRAW;
 
     std::vector<std::unique_ptr<Shape> > shapes;
 

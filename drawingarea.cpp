@@ -1,9 +1,11 @@
 #include "drawingarea.h"
 #include "line.h"
+#include "circle.h"
 
 DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
 {
     image = QImage(width(), height(), QImage::Format_BGR888);
+
 }
 
 void DrawingArea::_resize()
@@ -14,7 +16,7 @@ void DrawingArea::_resize()
 bool DrawingArea::setPixel(int x, int y, Color color)
 {
     uchar* ptr = image.bits();
-    if (x > image.width() || y > image.height()){
+    if (x > image.width() || x < 0 || y >= image.height() || y < 0){
         return false;
     }
 
@@ -51,7 +53,7 @@ void DrawingArea::paintEvent(QPaintEvent*)
 void DrawingArea::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        switch (mode) {
+        switch (mymode) {
         case DRAW:
             drawing = true;
             startPoint = event->pos();
@@ -67,7 +69,7 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && drawing) {
-        switch (mode) {
+        switch (mymode) {
         case DRAW:
             drawing = false;
             endPoint = event->pos();
@@ -78,14 +80,27 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             break;
         }
 
-        qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
+        switch (myshape) {
+        case LINE:
+        {
+            qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
 
-        std::unique_ptr<Shape> line = std::make_unique<Line>(startPoint, endPoint);
+            std::unique_ptr<Shape> line = std::make_unique<Line>(startPoint, endPoint);
+            shapes.push_back(std::move(line));
+            update();
+            break;
+        }
+        case CIRCLE:
+        {
+            std::unique_ptr<Shape> circle = std::make_unique<Circle>(startPoint, endPoint);
+            shapes.push_back(std::move(circle));
+            update();
+            break;
+        }
+        case POLYGON:
+            break;
 
-        shapes.push_back(std::move(line));
-
-        update();
-
+        }
     }
 }
 

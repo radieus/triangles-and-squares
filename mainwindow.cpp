@@ -17,3 +17,17 @@ MainWindow::~MainWindow()
 }
 
 
+
+void MainWindow::on_drawLineButton_toggled(bool checked)
+{
+    if (checked){
+        scene->myshape = DrawingArea::LINE;
+    }
+}
+
+void MainWindow::on_drawCircleButton_toggled(bool checked)
+{
+    if (checked){
+        scene->myshape = DrawingArea::CIRCLE;
+    }
+}

@@ -17,6 +17,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_drawLineButton_toggled(bool checked);
+
+    void on_drawCircleButton_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;
