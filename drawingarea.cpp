@@ -48,7 +48,7 @@ void DrawingArea::paintEvent(QPaintEvent*)
     for (const auto &shape : shapes) {
           std::vector<Pixel> pixels = shape->getPixels();
           for (Pixel pix: pixels){
-              setPixel(pix.x, pix.y, Color(0, 0, 0));
+              setPixel(pix.x, pix.y, shape->getColor());
           }
       }
 
@@ -75,24 +75,33 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void DrawingArea::changeColorOfActiveShape(Color color)
+{
+    (*activeShape)->setColor(color);
+    update();
+}
+
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && drawing) {
+    if (event->button() == Qt::LeftButton) {
         switch (mymode) {
         case DRAW:
-            drawing = false;
+        {
             endPoint = event->pos();
             break;
+        }
         case ERASE:
-            drawing = false;
+        {
             myshape = SELECT;
             endPoint = event->pos();
             break;
+        }
         case TRANSFORM:
-            drawing = false;
+        {
             myshape = SELECT;
             endPoint = event->pos();
             break;
+        }
         }
 
         switch (myshape) {
@@ -118,15 +127,19 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         case SELECT:
         {
             Pixel tmp_pix(startPoint.x(), startPoint.y());
-            for (const auto &shape : shapes) {
+            for (auto &shape : shapes) {
                   std::vector<Pixel> pixels = shape->getPixels();
                   for (Pixel pix: pixels){
-                      if (tmp_pix == pix)
-                         //active = shape;
+                      if (tmp_pix == pix){
+                         qDebug() << "Pixel found:" << pix.x <<" "<< pix.y;
+                         activeShape = &shape;
+                         break;
+                      }
                   }
             }
 
             break;
+
         }
         }
     }

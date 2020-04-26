@@ -27,6 +27,8 @@ public:
 
     myMode mymode = DRAW;
     myShape myshape = LINE;
+    std::unique_ptr<Shape>* activeShape;
+    void changeColorOfActiveShape(Color color);
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -39,7 +41,6 @@ private:
     bool drawing = false;
     QPoint startPoint;
     QPoint endPoint;
-    std::unique_ptr<Shape> active;
     std::vector<std::unique_ptr<Shape> > shapes;
 
 };

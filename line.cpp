@@ -37,8 +37,6 @@ std::vector<Pixel> Line::getPixels()
           std::swap(x2, y2);
       }
 
-
-
      int dx = x2 - x1;
      int dy = abs(y2 - y1);
      int d = 2*dy - dx;

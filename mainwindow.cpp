@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "drawingarea.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,7 @@ void MainWindow::on_drawLineButton_toggled(bool checked)
 {
     if (checked){
         scene->myshape = DrawingArea::LINE;
+        scene->mymode = DrawingArea::DRAW;
     }
 }
 
@@ -28,6 +30,7 @@ void MainWindow::on_drawCircleButton_toggled(bool checked)
 {
     if (checked){
         scene->myshape = DrawingArea::CIRCLE;
+        scene->mymode = DrawingArea::DRAW;
     }
 }
 
@@ -37,7 +40,7 @@ void MainWindow::on_pushButton_clicked()
     if (dialog_color.isValid()){
         int _r, _g, _b;
         dialog_color.getRgb(&_r, &_g, &_b);
-        //active->color = Color(_r, _g, _b);
+        scene->changeColorOfActiveShape(Color(_b, _g, _r));
     }
 }
 
@@ -45,5 +48,6 @@ void MainWindow::on_radioButton_toggled(bool checked)
 {
     if (checked){
         scene->mymode = DrawingArea::TRANSFORM;
+        qDebug()<<scene->mymode;
     }
 }

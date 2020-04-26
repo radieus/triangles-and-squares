@@ -36,9 +36,9 @@ std::vector<Pixel> Circle::getPixels()
     int y = 0;
 
     pixels.push_back(Pixel(x1, y1 + radius));
-    pixels.push_back(Pixel(x1, y1 -radius));
+    pixels.push_back(Pixel(x1, y1 - radius));
     pixels.push_back(Pixel(x1 + radius, y1));
-    pixels.push_back(Pixel(x1 -radius, y1));
+    pixels.push_back(Pixel(x1 - radius, y1));
 
     while (x > y)
     {

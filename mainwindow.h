@@ -6,6 +6,7 @@
 #include <drawingarea.h>
 #include <QColorDialog>
 #include <QColor>
+#include <Shape.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
