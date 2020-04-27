@@ -14,6 +14,7 @@ public:
 
     std::vector<Pixel> getPixels() override;
 
+    json getJsonFormat() override;
 
 };
 

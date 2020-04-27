@@ -1,4 +1,5 @@
 #include "polygon.h"
+#include <QDebug>
 
 Polygon::Polygon()
 {
@@ -13,7 +14,6 @@ Polygon::Polygon(std::vector<QPoint> points)
 void Polygon::addPoint(QPoint p)
 {
     points.push_back(p);
-
     if (this->points.size() > 1) {
        Line newLine = Line(QPoint(points[points.size()-2].x(), points[points.size()-2].y()), QPoint(p.x(), p.y()));
        lines.push_back(newLine);
@@ -39,6 +39,20 @@ std::vector<Pixel> Polygon::getPixels()
     }
 
     return pixels;
+}
+
+json Polygon::getJsonFormat()
+{
+    json item;
+    item["shape"] = "polygon";
+    for (auto point : getPoints()) {
+        item["points"].push_back({point.x(), point.y()});
+    }
+    item["color"] = {getColor().r, getColor().g, getColor().b};
+    item["thickness"] = getThickness();
+    item["size"] = getPoints().size();
+
+    return item;
 }
 
 

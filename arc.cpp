@@ -44,10 +44,6 @@ std::vector<Pixel> Arc::getPixels()
 
     int x1 = points[0].x();
     int y1 = points[0].y();
-    int x2 = points[1].x();
-    int y2 = points[1].y();
-    int x3 = points[2].x();
-    int y3 = points[2].y();
 
     int det = determinant(points[0], points[1], points[2]);
     bool case1 = (det > 0);
@@ -163,4 +159,12 @@ std::vector<Pixel> Arc::getPixels()
 
     return pixels;
 
+}
+
+json Arc::getJsonFormat()
+{
+    json item;
+    item["shape"] = "arc";
+
+    return item;
 }

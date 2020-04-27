@@ -17,8 +17,9 @@ public:
 
     int getPointsSize() { return points.size(); }
 
-    std::vector<QPoint> points;
     std::vector<Line> lines;
+
+    json getJsonFormat() override;
 };
 
 #endif // POLYGON_H

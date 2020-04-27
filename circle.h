@@ -15,6 +15,10 @@ public:
 
     std::vector<Pixel> getPixels() override;
 
+    int getRadius() {return radius;}
+
+    json getJsonFormat() override;
+
 private:
     int radius;
 

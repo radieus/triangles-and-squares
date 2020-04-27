@@ -71,4 +71,18 @@ std::vector<Pixel> Circle::getPixels()
     return pixels;
 }
 
+json Circle::getJsonFormat()
+{
+    json item;
+    item["shape"] = "circle";
+    for (auto point : getPoints()) {
+        item["points"].push_back({point.x(), point.y()});
+    }
+    item["color"] = {getColor().r, getColor().g, getColor().b};
+    item["thickness"] = getThickness();
+    item["size"] = getPoints().size();
+    item["radius"] = radius;
+
+    return item;
+}
 

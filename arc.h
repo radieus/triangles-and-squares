@@ -19,6 +19,8 @@ public:
     std::vector<QPoint> points;
     std::vector<Line> lines;
 
+    json getJsonFormat() override;
+
 private:
     int radius;
 

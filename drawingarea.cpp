@@ -19,7 +19,6 @@ bool operator==(const Pixel& lhs, const Pixel& rhs)
     return lhs.x== rhs.x && lhs.y == rhs.y;
 }
 
-
 bool DrawingArea::setPixel(int x, int y, Color color)
 {
     uchar* ptr = image.bits();

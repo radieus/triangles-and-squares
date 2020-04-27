@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "drawingarea.h"
+#include <fstream>
+
+using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -94,4 +97,21 @@ void MainWindow::on_paintArc_clicked()
     if (scene->myshape == DrawingArea::ARC) {
         scene->paintArc();
     }
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    auto fileName = QFileDialog::getSaveFileName(this, tr("Save Your Project"), "", tr("Project File(*.json);;All Files (*)"));
+    json j;
+    for (auto &shape : scene->shapes) {
+        j.push_back(shape->getJsonFormat());
+    }
+
+    std::ofstream file(fileName.toStdString());
+        file << j;
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+
 }

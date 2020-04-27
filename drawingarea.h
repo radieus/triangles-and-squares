@@ -35,6 +35,7 @@ public:
     void paintPolygon();
     void paintArc();
     void setShapeThickness(int thickness);
+    std::vector<std::unique_ptr<Shape> > shapes;
 
     bool finished = false;
 
@@ -48,7 +49,6 @@ private:
     QImage image;
     QPoint startPoint;
     QPoint endPoint;
-    std::vector<std::unique_ptr<Shape> > shapes;
     std::vector<std::unique_ptr<Shape> > trash;
     std::unique_ptr<Polygon> polygon = nullptr;
     std::unique_ptr<Arc> arc = nullptr;

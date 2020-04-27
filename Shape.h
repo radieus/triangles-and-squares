@@ -5,6 +5,9 @@
 #include <vector>
 #include "color.h"
 #include "pixel.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 class Shape {
     public:
@@ -13,8 +16,12 @@ class Shape {
 
         virtual std::vector<Pixel> getPixels() = 0;
 
+        virtual json getJsonFormat() = 0;
+
         Color getColor() {return color;}
         void setColor(Color color) {this->color = color;}
+
+        std::vector<QPoint> getPoints() {return points;}
 
         void setThickness(int t) {thickness = t;}
         int getThickness() {return thickness;}

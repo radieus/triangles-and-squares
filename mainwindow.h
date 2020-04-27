@@ -6,7 +6,9 @@
 #include <drawingarea.h>
 #include <QColorDialog>
 #include <QColor>
+#include <QFileDialog>
 #include <Shape.h>
+#include <nlohmann/json.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,10 +39,13 @@ private slots:
 
     void on_thiccSlasher_sliderReleased();
 
-
     void on_drawArcButton_toggled(bool checked);
 
     void on_paintArc_clicked();
+
+    void on_actionSave_triggered();
+
+    void on_actionLoad_triggered();
 
 private:
     Ui::MainWindow *ui;

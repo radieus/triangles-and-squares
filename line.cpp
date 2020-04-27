@@ -142,3 +142,17 @@ std::vector<Pixel> Line::getPixels()
 
     return pixels;
 }
+
+json Line::getJsonFormat()
+{
+    json item;
+    item["shape"] = "line";
+    for (auto point : getPoints()) {
+        item["points"].push_back({point.x(), point.y()});
+    }
+    item["color"] = {getColor().r, getColor().g, getColor().b};
+    item["thickness"] = getThickness();
+    item["size"] = getPoints().size();
+
+    return item;
+}
