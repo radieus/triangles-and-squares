@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,6 +60,13 @@
        <widget class="QRadioButton" name="drawPolygonButton">
         <property name="text">
          <string>Polygon</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="paintPolygon">
+        <property name="text">
+         <string>Paint polygon</string>
         </property>
        </widget>
       </item>

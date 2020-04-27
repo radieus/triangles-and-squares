@@ -31,6 +31,10 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void on_drawPolygonButton_toggled(bool checked);
+
+    void on_paintPolygon_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

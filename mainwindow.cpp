@@ -59,3 +59,18 @@ void MainWindow::on_clearButton_clicked()
 {
     scene->eraseShapes();
 }
+
+void MainWindow::on_drawPolygonButton_toggled(bool checked)
+{
+    if (checked){
+        scene->myshape = DrawingArea::POLYGON;
+        scene->mymode = DrawingArea::DRAW;
+    }
+}
+
+void MainWindow::on_paintPolygon_clicked()
+{
+    if (scene->myshape == DrawingArea::POLYGON){
+        scene->paintPolygon();
+    }
+}

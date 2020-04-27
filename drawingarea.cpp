@@ -1,11 +1,11 @@
 #include "drawingarea.h"
 #include "line.h"
 #include "circle.h"
+#include "polygon.h"
 
 DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
 {
     image = QImage(width(), height(), QImage::Format_BGR888);
-
 }
 
 void DrawingArea::_resize()
@@ -60,15 +60,10 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         switch (mymode) {
         case DRAW:
-            drawing = true;
-            startPoint = event->pos();
-            break;
-        case ERASE:
-            drawing = false;
+            qDebug() << startPoint.x() << " "<< startPoint.y();
             startPoint = event->pos();
             break;
         case TRANSFORM:
-            drawing = false;
             startPoint = event->pos();
             break;
         }
@@ -87,18 +82,21 @@ void DrawingArea::eraseShapes()
     update();
 }
 
+void DrawingArea::paintPolygon()
+{
+    shapes.push_back(std::move(polygon));
+    finished = true;
+    newPolygon = true;
+    polygon = nullptr;
+    update();
+}
+
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         switch (mymode) {
         case DRAW:
         {
-            endPoint = event->pos();
-            break;
-        }
-        case ERASE:
-        {
-            myshape = SELECT;
             endPoint = event->pos();
             break;
         }
@@ -114,7 +112,6 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         case LINE:
         {
             qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
-
             std::unique_ptr<Shape> line = std::make_unique<Line>(startPoint, endPoint);
             shapes.push_back(std::move(line));
             update();
@@ -122,14 +119,25 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         }
         case CIRCLE:
         {
+            qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
             std::unique_ptr<Shape> circle = std::make_unique<Circle>(startPoint, endPoint);
             shapes.push_back(std::move(circle));
             update();
             break;
         }
         case POLYGON:
-            break;
+        {
+            if (newPolygon) {
+                polygon = std::make_unique<Polygon>();
+                polygon->addPoint(startPoint);
+                newPolygon = false;
+            }
+            else {
+                polygon->addPoint(startPoint);
+            }
 
+            break;
+        }
         case SELECT:
         {
             Pixel tmp_pix(startPoint.x(), startPoint.y());

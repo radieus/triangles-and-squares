@@ -21,7 +21,8 @@ SOURCES += \
     line.cpp \
     main.cpp \
     mainwindow.cpp \
-    pixel.cpp
+    pixel.cpp \
+    polygon.cpp
 
 HEADERS += \
     circle.h \
@@ -30,6 +31,7 @@ HEADERS += \
     line.h \
     mainwindow.h \
     pixel.h \
+    polygon.h \
     shape.h
 
 FORMS += \

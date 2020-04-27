@@ -12,6 +12,7 @@
 #include <QDebug>
 #include "Shape.h"
 #include "color.h"
+#include "polygon.h"
 
 class DrawingArea : public QWidget
 {
@@ -21,7 +22,7 @@ public:
     explicit DrawingArea(QWidget *parent = nullptr);
     void clearImage();
     bool setPixel(int x, int y, Color color);
-    enum myMode { DRAW, ERASE, TRANSFORM };
+    enum myMode { DRAW, TRANSFORM };
     enum myShape { LINE, CIRCLE, POLYGON, SELECT};
     void _resize();
 
@@ -30,6 +31,9 @@ public:
     std::unique_ptr<Shape>* activeShape;
     void changeColorOfActiveShape(Color color);
     void eraseShapes();
+    void paintPolygon();
+
+    bool finished = false;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -38,11 +42,12 @@ protected:
 
 private:
     QImage image;
-    bool modified = false;
-    bool drawing = false;
     QPoint startPoint;
     QPoint endPoint;
     std::vector<std::unique_ptr<Shape> > shapes;
+    std::unique_ptr<Polygon> polygon = nullptr;
+
+    bool newPolygon = true;
 
 };
 
