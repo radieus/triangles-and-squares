@@ -17,6 +17,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
 
 void MainWindow::on_drawLineButton_toggled(bool checked)
 {
