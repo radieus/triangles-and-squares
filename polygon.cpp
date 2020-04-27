@@ -29,6 +29,9 @@ std::vector<Pixel> Polygon::getPixels()
 {
     std::vector<Pixel> pixels;
 
+    Line newLine = Line(QPoint(points[points.size()-1].x(), points[points.size()-1].y()), QPoint(lines[0].getPoint(0).x(), lines[0].getPoint(0).y()));
+    lines.push_back(newLine);
+
     for (auto line: lines) {
         std::vector<Pixel> newPixels = line.getPixels();
         pixels.insert(pixels.end(), newPixels.begin(), newPixels.end());

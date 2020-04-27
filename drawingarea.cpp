@@ -32,7 +32,6 @@ bool DrawingArea::setPixel(int x, int y, Color color)
     return true;
 }
 
-
 void DrawingArea::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
