@@ -38,6 +38,10 @@ private slots:
     void on_thiccSlasher_sliderReleased();
 
 
+    void on_drawArcButton_toggled(bool checked);
+
+    void on_paintArc_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

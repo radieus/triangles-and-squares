@@ -2,6 +2,7 @@
 #include "line.h"
 #include "circle.h"
 #include "polygon.h"
+#include "arc.h"
 
 DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
 {
@@ -105,6 +106,15 @@ void DrawingArea::paintPolygon()
     update();
 }
 
+void DrawingArea::paintArc()
+{
+    shapes.push_back(std::move(arc));
+    finished = true;
+    newArc = true;
+    arc = nullptr;
+    update();
+}
+
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -139,6 +149,20 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             update();
             break;
         }
+        case ARC:
+        {
+            if (newArc) {
+                arc = std::make_unique<Arc>();
+                arc->addPoint(startPoint);
+                newArc = false;
+            }
+            else {
+                arc->addPoint(startPoint);
+            }
+
+            break;
+        }
+
         case POLYGON:
         {
             if (newPolygon) {

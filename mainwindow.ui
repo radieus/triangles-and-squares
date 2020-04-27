@@ -71,6 +71,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="drawArcButton">
+        <property name="text">
+         <string>Arc</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="paintArc">
+        <property name="text">
+         <string>Paint arc</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="antialiasBox">
         <property name="text">
          <string>Anti-alias</string>

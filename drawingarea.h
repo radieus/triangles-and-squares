@@ -13,6 +13,7 @@
 #include "Shape.h"
 #include "color.h"
 #include "polygon.h"
+#include "arc.h"
 
 class DrawingArea : public QWidget
 {
@@ -23,7 +24,7 @@ public:
     void clearImage();
     bool setPixel(int x, int y, Color color);
     enum myMode { DRAW, TRANSFORM };
-    enum myShape { LINE, CIRCLE, POLYGON, SELECT};
+    enum myShape { LINE, CIRCLE, POLYGON, ARC, SELECT};
     void _resize();
 
     myMode mymode = DRAW;
@@ -32,6 +33,7 @@ public:
     void changeColorOfActiveShape(Color color);
     void eraseShapes();
     void paintPolygon();
+    void paintArc();
     void setShapeThickness(int thickness);
 
     bool finished = false;
@@ -49,8 +51,10 @@ private:
     std::vector<std::unique_ptr<Shape> > shapes;
     std::vector<std::unique_ptr<Shape> > trash;
     std::unique_ptr<Polygon> polygon = nullptr;
+    std::unique_ptr<Arc> arc = nullptr;
 
     bool newPolygon = true;
+    bool newArc = true;
 
 };
 

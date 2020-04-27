@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arc.cpp \
     circle.cpp \
     drawingarea.cpp \
     line.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     polygon.cpp
 
 HEADERS += \
+    arc.h \
     circle.h \
     color.h \
     drawingarea.h \

@@ -80,3 +80,18 @@ void MainWindow::on_thiccSlasher_sliderReleased()
 {
     scene->setShapeThickness(ui->thiccSlasher->value());
 }
+
+void MainWindow::on_drawArcButton_toggled(bool checked)
+{
+    if (checked) {
+        scene->myshape = DrawingArea::ARC;
+        scene->mymode = DrawingArea::DRAW;
+    }
+}
+
+void MainWindow::on_paintArc_clicked()
+{
+    if (scene->myshape == DrawingArea::ARC) {
+        scene->paintArc();
+    }
+}
