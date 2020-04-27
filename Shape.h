@@ -25,7 +25,7 @@ class Shape {
         std::vector<QPoint> points;
         Color color = {0, 0, 0};
 
-        int thickness = 1;
+        int thickness = 2;
 };
 
 #endif // SHAPE_H

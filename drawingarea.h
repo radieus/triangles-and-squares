@@ -31,7 +31,9 @@ public:
     std::unique_ptr<Shape>* activeShape;
     void changeColorOfActiveShape(Color color);
     void eraseShapes();
+    void removeShape();
     void paintPolygon();
+    void setShapeThickness(int thickness);
 
     bool finished = false;
 
@@ -39,12 +41,14 @@ protected:
     void paintEvent(QPaintEvent *) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent * event) override;
 
 private:
     QImage image;
     QPoint startPoint;
     QPoint endPoint;
     std::vector<std::unique_ptr<Shape> > shapes;
+    std::vector<std::unique_ptr<Shape> > trash;
     std::unique_ptr<Polygon> polygon = nullptr;
 
     bool newPolygon = true;

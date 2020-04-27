@@ -33,6 +33,7 @@ std::vector<Pixel> Polygon::getPixels()
     lines.push_back(newLine);
 
     for (auto line: lines) {
+        line.setThickness(thickness);
         std::vector<Pixel> newPixels = line.getPixels();
         pixels.insert(pixels.end(), newPixels.begin(), newPixels.end());
     }

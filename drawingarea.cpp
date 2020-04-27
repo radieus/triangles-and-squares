@@ -18,6 +18,7 @@ bool operator==(const Pixel& lhs, const Pixel& rhs)
     return lhs.x== rhs.x && lhs.y == rhs.y;
 }
 
+
 bool DrawingArea::setPixel(int x, int y, Color color)
 {
     uchar* ptr = image.bits();
@@ -69,9 +70,22 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
     }
 }
 
+void DrawingArea::mouseMoveEvent(QMouseEvent *event)
+{
+    int pos_x = event->pos().x();
+    int pos_y = event->pos().y();
+
+}
+
 void DrawingArea::changeColorOfActiveShape(Color color)
 {
     (*activeShape)->setColor(color);
+    update();
+}
+
+void DrawingArea::setShapeThickness(int thickness)
+{
+    (*activeShape)->setThickness(thickness);
     update();
 }
 
@@ -79,6 +93,11 @@ void DrawingArea::eraseShapes()
 {
     shapes.clear();
     update();
+}
+
+void DrawingArea::removeShape()
+{
+    trash.push_back(std::move(*activeShape));
 }
 
 void DrawingArea::paintPolygon()

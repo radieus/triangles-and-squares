@@ -107,7 +107,10 @@ std::vector<Pixel> Line::getPixels()
         y = y1;
 
         while (y != y2) {
-            pixels.push_back(Pixel(x, y));
+            for(int i = -thickness/2; i < thickness/2; i++){
+                pixels.push_back(Pixel(x + i, y));
+            }
+
             if (d <= 0)
                 d += incE;
             else {
@@ -124,7 +127,9 @@ std::vector<Pixel> Line::getPixels()
         x = x1;
         y = y1;
         while (x != x2) {
-            pixels.push_back(Pixel(x, y));
+            for(int i = -thickness/2; i < thickness/2; i++){
+                pixels.push_back(Pixel(x, y + i));
+            }
             if (d <= 0)
                 d += incE;
             else {

@@ -35,6 +35,10 @@ private slots:
 
     void on_paintPolygon_clicked();
 
+    void on_thiccSlasher_sliderReleased();
+
+    void on_removButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;
