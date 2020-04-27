@@ -31,7 +31,6 @@ public:
     std::unique_ptr<Shape>* activeShape;
     void changeColorOfActiveShape(Color color);
     void eraseShapes();
-    void removeShape();
     void paintPolygon();
     void setShapeThickness(int thickness);
 

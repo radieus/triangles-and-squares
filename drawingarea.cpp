@@ -95,10 +95,6 @@ void DrawingArea::eraseShapes()
     update();
 }
 
-void DrawingArea::removeShape()
-{
-    trash.push_back(std::move(*activeShape));
-}
 
 void DrawingArea::paintPolygon()
 {

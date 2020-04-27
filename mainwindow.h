@@ -37,7 +37,6 @@ private slots:
 
     void on_thiccSlasher_sliderReleased();
 
-    void on_removButton_clicked();
 
 private:
     Ui::MainWindow *ui;

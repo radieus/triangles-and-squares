@@ -80,8 +80,3 @@ void MainWindow::on_thiccSlasher_sliderReleased()
 {
     scene->setShapeThickness(ui->thiccSlasher->value());
 }
-
-void MainWindow::on_removButton_clicked()
-{
-    scene->removeShape();
-}
