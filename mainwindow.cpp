@@ -51,3 +51,8 @@ void MainWindow::on_radioButton_toggled(bool checked)
         qDebug()<<scene->mymode;
     }
 }
+
+void MainWindow::on_clearButton_clicked()
+{
+    scene->eraseShapes();
+}

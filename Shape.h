@@ -19,6 +19,8 @@ class Shape {
         void setThickness(int t) {thickness = t;}
         int getThickness() {return thickness;}
 
+        virtual ~Shape() {};
+
     protected:
         std::vector<QPoint> points;
         Color color = {0, 0, 0};

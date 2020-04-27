@@ -81,6 +81,12 @@ void DrawingArea::changeColorOfActiveShape(Color color)
     update();
 }
 
+void DrawingArea::eraseShapes()
+{
+    shapes.clear();
+    update();
+}
+
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {

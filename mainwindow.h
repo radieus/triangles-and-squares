@@ -29,6 +29,8 @@ private slots:
 
     void on_radioButton_toggled(bool checked);
 
+    void on_clearButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

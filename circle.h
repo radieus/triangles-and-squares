@@ -2,13 +2,11 @@
 #define CIRCLE_H
 
 #include <QPoint>
-#include <pixel.h>
-#include <Shape.h>
+#include "Shape.h"
 
 class Circle : public Shape
 {
 public:
-
     Circle();
     Circle(QPoint p1, QPoint p2);
 

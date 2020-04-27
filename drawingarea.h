@@ -29,6 +29,7 @@ public:
     myShape myshape = LINE;
     std::unique_ptr<Shape>* activeShape;
     void changeColorOfActiveShape(Color color);
+    void eraseShapes();
 
 protected:
     void paintEvent(QPaintEvent *) override;

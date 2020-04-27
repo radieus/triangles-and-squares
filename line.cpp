@@ -31,11 +31,15 @@ std::vector<Pixel> Line::getPixels()
      int x2 = points[1].x();
      int y2 = points[1].y();
 
-      if(abs(y2 - y1) > abs(x2 - x1))
-      {
-          std::swap(x1, y1);
-          std::swap(x2, y2);
-      }
+     if (abs(y2 - y1) > abs(x2 - x1)) {
+         std::swap(x1, y1);
+         std::swap(x2, y2);
+     }
+
+     if (x1 > x2) {
+         std::swap(x1, x2);
+         std::swap(y1, y2);
+     }
 
      int dx = x2 - x1;
      int dy = abs(y2 - y1);
@@ -45,7 +49,7 @@ std::vector<Pixel> Line::getPixels()
      int xf = x1, yf = y1;
      int xb = x2, yb = y2;
 
-     const int ystep = (y1 < y2) ? 1 : -1;
+     int ystep = (y1 < y2) ? 1 : -1;
 
      pixels.push_back(Pixel(xf, yf));
      pixels.push_back(Pixel(xb, yb));
