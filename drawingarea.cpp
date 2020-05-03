@@ -180,8 +180,8 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             Pixel tmp_pix(startPoint.x(), startPoint.y());
             for (auto &shape : shapes) {
                   std::vector<Pixel> pixels = shape->getPixels();
-                  for (Pixel pix: pixels){
-                      if (tmp_pix == pix){
+                  for (Pixel pix: pixels) {
+                      if (tmp_pix == pix) {
                          qDebug() << "Pixel found:" << pix.x <<" "<< pix.y;
                          activeShape = &shape;
                          break;

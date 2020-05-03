@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "drawingarea.h"
+#include <iostream>
 #include <fstream>
 
 using json = nlohmann::json;
@@ -102,6 +103,9 @@ void MainWindow::on_paintArc_clicked()
 void MainWindow::on_actionSave_triggered()
 {
     auto fileName = QFileDialog::getSaveFileName(this, tr("Save Your Project"), "", tr("Project File(*.json);;All Files (*)"));
+    if (fileName.isEmpty())
+        return;
+
     json j;
     for (auto &shape : scene->shapes) {
         j.push_back(shape->getJsonFormat());
@@ -113,5 +117,51 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionLoad_triggered()
 {
+    auto fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.json)"));
+    if (fileName.isEmpty())
+        return;
+
+    std::ifstream i(fileName.toStdString());
+    json j;
+    i >> j;
+
+    for (auto &shape : j) {
+
+        if (shape["shape"].get<std::string>() == "circle") {
+
+            std::unique_ptr<Shape> current = std::make_unique<Circle>(QPoint(shape["points"][0][0], shape["points"][0][1]),
+                                                                      QPoint(shape["points"][1][0], shape["points"][1][1]));
+            current->setColor(Color(shape["color"][0], shape["color"][1], shape["color"][2]));
+            current->setThickness(shape["thickness"].get<int>());
+            scene->shapes.push_back(std::move(current));
+            update();
+        }
+
+        else if (shape["shape"].get<std::string>() == "line") {
+
+            std::unique_ptr<Shape> current = std::make_unique<Line>(QPoint(shape["points"][0][0], shape["points"][0][1]),
+                                                                    QPoint(shape["points"][1][0], shape["points"][1][1]));
+            current->setColor(Color(shape["color"][0], shape["color"][1], shape["color"][2]));
+            current->setThickness(shape["thickness"].get<int>());
+            scene->shapes.push_back(std::move(current));
+            update();
+
+        }
+
+        else if (shape["shape"].get<std::string>() == "polygon") {
+
+            std::unique_ptr<Shape> current = std::make_unique<Polygon>();
+
+            for (auto point : shape["points"]) {
+                current->addPoint(QPoint(point[0], point[1]));
+            }
+
+            current->setColor(Color(shape["color"][0], shape["color"][1], shape["color"][2]));
+            current->setThickness(shape["thickness"].get<int>());
+            scene->shapes.push_back(std::move(current));
+            update();
+        }
+
+    }
 
 }

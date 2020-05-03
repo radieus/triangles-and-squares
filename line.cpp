@@ -152,7 +152,7 @@ json Line::getJsonFormat()
     }
     item["color"] = {getColor().r, getColor().g, getColor().b};
     item["thickness"] = getThickness();
-    item["size"] = getPoints().size();
 
     return item;
 }
+

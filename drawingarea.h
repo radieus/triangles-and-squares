@@ -14,6 +14,7 @@
 #include "color.h"
 #include "polygon.h"
 #include "arc.h"
+#include "circle.h"
 
 class DrawingArea : public QWidget
 {
