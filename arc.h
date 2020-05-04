@@ -15,6 +15,7 @@ public:
     QPoint getPoint(int i) override;
 
     std::vector<Pixel> getPixels() override;
+     std::vector<Pixel> getPixelsAA() override;
 
     std::vector<QPoint> points;
     std::vector<Line> lines;

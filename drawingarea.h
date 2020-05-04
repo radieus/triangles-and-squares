@@ -23,7 +23,7 @@ class DrawingArea : public QWidget
 public:
     explicit DrawingArea(QWidget *parent = nullptr);
     void clearImage();
-    bool setPixel(int x, int y, Color color);
+    bool setPixel(int x, int y, Color color, double brightness);
     enum myMode { DRAW, TRANSFORM };
     enum myShape { LINE, CIRCLE, POLYGON, ARC, SELECT};
     void _resize();

@@ -14,6 +14,7 @@ public:
     QPoint getPoint(int i) override;
 
     std::vector<Pixel> getPixels() override;
+    std::vector<Pixel> getPixelsAA() override;
 
     int getRadius() {return radius;}
 

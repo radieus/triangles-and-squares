@@ -56,6 +56,8 @@ std::vector<Pixel> Arc::getPixels()
         pixels.insert(pixels.end(), newPixels.begin(), newPixels.end());
     }
 
+    int radius = sqrt(pow(points[1].x() - points[0].x(), 2) + pow(points[1].y() - points[0].y(), 2) * 1.0);
+
 //  circle part
     int dE = 3;
     int dSE = 5 - 2 * radius;
@@ -63,25 +65,21 @@ std::vector<Pixel> Arc::getPixels()
     int x = radius;
     int y = 0;
 
-//  pixels.push_back(Pixel(x1, y1+radius));
     if (case1 && determinant(points[0], points[1], QPoint(x1, y1+radius)) > 0 && determinant(points[0], points[2], QPoint(x1, y1+radius)) < 0)
         pixels.push_back(Pixel(x1, y1+radius));
     else if (case2 && (determinant(points[0], points[1], QPoint(x1, y1+radius)) > 0 || determinant(points[0], points[2], QPoint(x1, y1+radius)) < 0))
         pixels.push_back(Pixel(x1, y1+radius));
 
-//  pixels.push_back(Pixel(x1, y1-radius));
     if (case1 && determinant(points[0], points[1], QPoint(x1, y1-radius)) > 0 && determinant(points[0], points[2], QPoint(x1, y1-radius)) < 0)
         pixels.push_back(Pixel(x1, y1-radius));
     else if (case2 && (determinant(points[0], points[1], QPoint(x1, y1-radius)) > 0 || determinant(points[0], points[2], QPoint(x1, y1-radius)) < 0))
         pixels.push_back(Pixel(x1, y1-radius));
 
-//  pixels.push_back(Pixel(x1+radius, y1));
     if (case1 && determinant(points[0], points[1], QPoint(x1+radius, y1)) > 0 && determinant(points[0], points[2], QPoint(x1+radius, y1)) < 0)
         pixels.push_back(Pixel(x1+radius, y1));
     else if (case2 && (determinant(points[0], points[1], QPoint(x1+radius, y1)) > 0 || determinant(points[0], points[2], QPoint(x1+radius, y1)) < 0))
         pixels.push_back(Pixel(x1+radius, y1));
 
-//  pixels.push_back(Pixel(x1-radius, y1));
     if (case1 && determinant(points[0], points[1], QPoint(x1-radius, y1)) > 0 && determinant(points[0], points[2], QPoint(x1-radius, y1)) < 0)
         pixels.push_back(Pixel(x1-radius, y1));
     else if (case2 && (determinant(points[0], points[1], QPoint(x1-radius, y1)) > 0 || determinant(points[0], points[2], QPoint(x1-radius, y1)) < 0))
@@ -104,53 +102,41 @@ std::vector<Pixel> Arc::getPixels()
 
         if (x < y) break;
 
-//      pixels.push_back(Pixel(x1+x,y1+y));
-        if (case1 && determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 && determinant(points[0], points[2], QPoint(x+x1, y+y1)) < 0){
+        if (case1 && determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 && determinant(points[0], points[2], QPoint(x+x1, y+y1)) < 0)
             pixels.push_back(Pixel(x1+x,y1+y));
-            qDebug() << x1+x << y1+y;
-        }
-        else if (case2 && (determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 || determinant(points[0], points[2], QPoint(x1+x, y1+y)) < 0)){
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 || determinant(points[0], points[2], QPoint(x1+x, y1+y)) < 0))
             pixels.push_back(Pixel(x1+x,y1+y));
-            qDebug() << x1+x << y1+y;
-        }
 
-//      pixels.push_back(Pixel(x1-x,y1+y));
         if (case1 && determinant(points[0], points[1], QPoint(x1-x,y1+y)) > 0 && determinant(points[0], points[2], QPoint(x1-x,y1+y)) < 0)
             pixels.push_back(Pixel(x1-x,y1+y));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1-x,y1+y)) > 0 || determinant(points[0], points[2], QPoint(x1-x,y1+y)) < 0))
             pixels.push_back(Pixel(x1-x,y1+y));
 
-//      pixels.push_back(Pixel(x1+x,y1-y));
         if (case1 && determinant(points[0], points[1], QPoint(x1+x,y1-y)) > 0 && determinant(points[0], points[2], QPoint(x1+x,y1-y)) < 0)
             pixels.push_back(Pixel(x1+x,y1-y));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1+x,y1-y)) > 0 || determinant(points[0], points[2], QPoint(x1+x,y1-y)) < 0))
             pixels.push_back(Pixel(x1+x,y1-y));
 
-//      pixels.push_back(Pixel(x1-x,y1-y));
         if (case1 && determinant(points[0], points[1], QPoint(x1-x,y1-y)) > 0 && determinant(points[0], points[2], QPoint(x1-x,y1-y)) < 0)
             pixels.push_back(Pixel(x1-x,y1-y));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1-x,y1-y)) > 0 || determinant(points[0], points[2], QPoint(x1-x,y1-y)) < 0))
             pixels.push_back(Pixel(x1-x,y1-y));
 
-//      pixels.push_back(Pixel(x1+y,y1+x));
         if (case1 && determinant(points[0], points[1], QPoint(x1+y,y1+x)) > 0 && determinant(points[0], points[2], QPoint(x1+y,y1+x)) < 0)
             pixels.push_back(Pixel(x1+y,y1+x));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1+y,y1+x)) > 0 || determinant(points[0], points[2], QPoint(x1+y,y1+x)) < 0))
             pixels.push_back(Pixel(x1+y,y1+x));
 
-//      pixels.push_back(Pixel(x1+y,y1-x));
         if (case1 && determinant(points[0], points[1], QPoint(x1+y,y1-x)) > 0 && determinant(points[0], points[2], QPoint(x1+y,y1-x)) < 0)
             pixels.push_back(Pixel(x1+y,y1-x));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1+y,y1-x)) > 0 || determinant(points[0], points[2], QPoint(x1+y,y1-x)) < 0))
             pixels.push_back(Pixel(x1+y,y1-x));
 
-//      pixels.push_back(Pixel(x1-y,y1+x));
         if (case1 && determinant(points[0], points[1], QPoint(x1-y,y1+x)) > 0 && determinant(points[0], points[2], QPoint(x1-y,y1+x)) < 0)
             pixels.push_back(Pixel(x1-y,y1+x));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1-y,y1+x)) > 0 || determinant(points[0], points[2], QPoint(x1-y,y1+x)) < 0))
             pixels.push_back(Pixel(x1-y,y1+x));
 
-//      pixels.push_back(Pixel(x1-y,y1-x));
         if (case1 && determinant(points[0], points[1], QPoint(x1-y,y1-x)) > 0 && determinant(points[0], points[2], QPoint(x1-y,y1-x)) < 0)
             pixels.push_back(Pixel(x1-y,y1-x));
         else if (case2 && (determinant(points[0], points[1], QPoint(x1-y,y1-x)) > 0 || determinant(points[0], points[2], QPoint(x1-y,y1-x)) < 0))
@@ -159,6 +145,12 @@ std::vector<Pixel> Arc::getPixels()
 
     return pixels;
 
+}
+
+std::vector<Pixel> Arc::getPixelsAA()
+{
+    std::vector<Pixel> pixels;
+    return pixels;
 }
 
 json Arc::getJsonFormat()

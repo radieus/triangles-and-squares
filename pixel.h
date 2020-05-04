@@ -6,8 +6,12 @@ class Pixel
 {
 public:
     Pixel(int x, int y);
+    Pixel(int x, int y, double brightness);
     int x;
     int y;
+    double brightness = 1;
+
+    double getBrightness();
 };
 
 #endif // PIXEL_H

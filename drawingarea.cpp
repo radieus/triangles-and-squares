@@ -3,6 +3,7 @@
 #include "circle.h"
 #include "polygon.h"
 #include "arc.h"
+#include <QDebug>
 
 DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
 {
@@ -19,16 +20,16 @@ bool operator==(const Pixel& lhs, const Pixel& rhs)
     return lhs.x== rhs.x && lhs.y == rhs.y;
 }
 
-bool DrawingArea::setPixel(int x, int y, Color color)
+bool DrawingArea::setPixel(int x, int y, Color color, double brightness)
 {
     uchar* ptr = image.bits();
     if (x > image.width() || x < 0 || y >= image.height() || y < 0){
         return false;
     }
 
-    *(ptr + 3*x + 3*y*image.height()) = color.r;
-    *(ptr + 3*x + 3*y*image.height() + 1) = color.g;
-    *(ptr + 3*x + 3*y*image.height() + 2) = color.b;
+    *(ptr + 3*x + 3*y*image.height()) = color.r + 255 - 255*brightness;
+    *(ptr + 3*x + 3*y*image.height() + 1) = color.g + 255 - 255*brightness;
+    *(ptr + 3*x + 3*y*image.height() + 2) = color.b + 255 - 255*brightness;
 
     return true;
 }
@@ -48,9 +49,9 @@ void DrawingArea::paintEvent(QPaintEvent*)
     for (const auto &shape : shapes) {
           std::vector<Pixel> pixels = shape->getPixels();
           for (Pixel pix: pixels){
-              setPixel(pix.x, pix.y, shape->getColor());
+              setPixel(pix.x, pix.y, shape->getColor(), pix.brightness);
           }
-      }
+    }
 
     painter.drawImage(0, 0, image);
 }
@@ -182,7 +183,7 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
                   std::vector<Pixel> pixels = shape->getPixels();
                   for (Pixel pix: pixels) {
                       if (tmp_pix == pix) {
-                         qDebug() << "Pixel found:" << pix.x <<" "<< pix.y;
+                         qDebug() << "Pixel found:" << pix.x << pix.y;
                          activeShape = &shape;
                          break;
                       }

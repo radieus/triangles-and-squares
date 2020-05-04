@@ -41,6 +41,12 @@ std::vector<Pixel> Polygon::getPixels()
     return pixels;
 }
 
+std::vector<Pixel> Polygon::getPixelsAA()
+{
+    std::vector<Pixel> pixels;
+    return pixels;
+}
+
 json Polygon::getJsonFormat()
 {
     json item;

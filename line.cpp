@@ -1,6 +1,6 @@
 #include "line.h"
 #include "color.h"
-
+#include <QDebug>
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
@@ -77,7 +77,7 @@ QPoint Line::getPoint(int i)
 //     return pixels;
 //}
 
-std::vector<Pixel> Line::getPixels()
+std::vector<Pixel> Line::getPixelsAA()
 {   //https://community.khronos.org/t/drawing-line-bresenhem-midpoint-algorithm/58759/7
     std::vector<Pixel> pixels;
 
@@ -137,6 +137,85 @@ std::vector<Pixel> Line::getPixels()
                 y += stepy;
             }
             x += stepx;
+        }
+    }
+
+    return pixels;
+}
+
+std::vector<Pixel> Line::getPixels(){
+
+    std::vector<Pixel> pixels;
+
+    int x0 = points[0].x();
+    int y0 = points[0].y();
+    int x1 = points[1].x();
+    int y1 = points[1].y();
+
+    auto ipart = [](float x) -> int {return int(std::floor(x));};
+    auto round = [](float x) -> float {return std::round(x);};
+    auto fpart = [](float x) -> float {return x - std::floor(x);};
+    auto rfpart = [=](float x) -> float {return 1 - fpart(x);};
+
+    const bool steep = abs(y1 - y0) > abs(x1 - x0);
+    if (steep) {
+        std::swap(x0,y0);
+        std::swap(x1,y1);
+    }
+    if (x0 > x1) {
+        std::swap(x0,x1);
+        std::swap(y0,y1);
+    }
+
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float gradient = (dx == 0) ? 1 : dy/dx;
+
+    int xpx11;
+    float intery;
+    {
+        const float xend = round(x0);
+        const float yend = y0 + gradient * (xend - x0);
+        const float xgap = rfpart(x0 + 0.5);
+        xpx11 = int(xend);
+        const int ypx11 = ipart(yend);
+        if (steep) {
+            pixels.push_back(Pixel(ypx11, xpx11, rfpart(yend) * xgap));
+            pixels.push_back(Pixel(ypx11 + 1, xpx11, fpart(yend) * xgap));
+        } else {
+            pixels.push_back(Pixel(xpx11, ypx11, rfpart(yend) * xgap));
+            pixels.push_back(Pixel(xpx11, ypx11 + 1, fpart(yend) * xgap));
+        }
+        intery = yend + gradient;
+    }
+
+    int xpx12;
+    {
+        const float xend = round(x1);
+        const float yend = y1 + gradient * (xend - x1);
+        const float xgap = rfpart(x1 + 0.5);
+        xpx12 = int(xend);
+        const int ypx12 = ipart(yend);
+        if (steep) {
+            pixels.push_back(Pixel(ypx12, xpx12, rfpart(yend) * xgap));
+            pixels.push_back(Pixel(ypx12 + 1, xpx12, fpart(yend) * xgap));
+        } else {
+            pixels.push_back(Pixel(xpx12, ypx12, rfpart(yend) * xgap));
+            pixels.push_back(Pixel(xpx12, ypx12 + 1, fpart(yend) * xgap));
+        }
+    }
+
+    if (steep) {
+        for (int x = xpx11 + 1; x < xpx12; x++) {
+            pixels.push_back(Pixel(ipart(intery), x, rfpart(intery)));
+            pixels.push_back(Pixel(ipart(intery) + 1, x, fpart(intery)));
+            intery += gradient;
+        }
+    } else {
+        for (int x = xpx11 + 1; x < xpx12; x++) {
+            pixels.push_back(Pixel(x, ipart(intery), rfpart(intery)));
+            pixels.push_back(Pixel(x, ipart(intery) + 1, fpart(intery)));
+            intery += gradient;
         }
     }
 

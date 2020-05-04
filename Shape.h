@@ -15,6 +15,7 @@ class Shape {
         virtual QPoint getPoint(int i) = 0;
 
         virtual std::vector<Pixel> getPixels() = 0;
+        virtual std::vector<Pixel> getPixelsAA() = 0;
 
         virtual json getJsonFormat() = 0;
 

@@ -1,5 +1,6 @@
 #include "circle.h"
 #include <cmath>
+#include <QDebug>
 
 Circle::Circle()
 {
@@ -22,7 +23,7 @@ QPoint Circle::getPoint(int i)
     return points[i];
 }
 
-std::vector<Pixel> Circle::getPixels()
+std::vector<Pixel> Circle::getPixelsAA()
 {
     std::vector<Pixel> pixels;
 
@@ -72,6 +73,70 @@ std::vector<Pixel> Circle::getPixels()
         }
     }
 
+    return pixels;
+}
+
+
+std::vector<Pixel> Circle::getPixels()
+{
+    std::vector<Pixel> pixels;
+
+    int x1 = points[0].x();
+    int y1 = points[0].y();
+
+    float radiusX = radius;
+    float radiusY = radius;
+    float radiusX2 = radiusX * radiusX;
+    float radiusY2 = radiusY * radiusY;
+
+    float maxTransparency = 255;
+
+    pixels.push_back(Pixel(x1, y1 + radius));
+    pixels.push_back(Pixel(x1, y1 - radius));
+    pixels.push_back(Pixel(x1 + radius, y1));
+    pixels.push_back(Pixel(x1 - radius, y1));
+
+    float quarter = roundf(radiusX2 / sqrtf(radiusX2 + radiusY2));
+    for(float _x = 0; _x <= quarter; _x++) {
+
+        float _y = radiusY * sqrtf(1 - _x * _x / radiusX2);
+        float error = _y - floorf(_y);
+
+        float transparency = roundf(error * maxTransparency);
+        double brightness1 = transparency/255;
+        double brightness2 = maxTransparency/255 - transparency/255;
+        //up down
+        pixels.push_back(Pixel(x1 + _x, y1 + floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 - _x, y1 + floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 + _x, y1 + floorf(_y) - 1, brightness2));
+        pixels.push_back(Pixel(x1 - _x, y1 + floorf(_y) - 1, brightness2));
+        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y) - 1, brightness1));
+        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y) - 1, brightness1));
+    }
+
+    quarter = roundf(radiusY2 / sqrtf(radiusX2 + radiusY2));
+    for(float _y = 0; _y <= quarter; _y++) {
+
+        float _x = radiusX * sqrtf(1 - _y * _y / radiusY2);
+        float error = _x - floorf(_x);
+
+        float transparency = roundf(error * maxTransparency);
+        double brightness1 = transparency/255;
+        double brightness2 = (maxTransparency - transparency)/255;
+        qDebug() << brightness1 << brightness2 << error;
+
+        //left right
+        pixels.push_back(Pixel(x1 + floorf(_x), y1 + floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 - floorf(_x) + 1, y1 + floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 + floorf(_x), y1 - floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 - floorf(_x) + 1, y1 - floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 + floorf(_x) - 1, y1 + floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 - floorf(_x) , y1 + floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 + floorf(_x) - 1, y1 - floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 - floorf(_x), y1 - floorf(_y), brightness1));
+    }
     return pixels;
 }
 
