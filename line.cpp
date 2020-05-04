@@ -77,7 +77,7 @@ QPoint Line::getPoint(int i)
 //     return pixels;
 //}
 
-std::vector<Pixel> Line::getPixelsAA()
+std::vector<Pixel> Line::getPixels()
 {   //https://community.khronos.org/t/drawing-line-bresenhem-midpoint-algorithm/58759/7
     std::vector<Pixel> pixels;
 
@@ -143,7 +143,7 @@ std::vector<Pixel> Line::getPixelsAA()
     return pixels;
 }
 
-std::vector<Pixel> Line::getPixels(){
+std::vector<Pixel> Line::getPixelsAA(){
 
     std::vector<Pixel> pixels;
 

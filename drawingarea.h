@@ -38,6 +38,7 @@ public:
     void setShapeThickness(int thickness);
     std::vector<std::unique_ptr<Shape> > shapes;
     bool finished = false;
+    bool antialiased = false;
 
 protected:
     void paintEvent(QPaintEvent *) override;

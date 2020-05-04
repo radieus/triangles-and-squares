@@ -150,6 +150,110 @@ std::vector<Pixel> Arc::getPixels()
 std::vector<Pixel> Arc::getPixelsAA()
 {
     std::vector<Pixel> pixels;
+
+    int x1 = points[0].x();
+    int y1 = points[0].y();
+
+    int det = determinant(points[0], points[1], points[2]);
+    bool case1 = (det > 0);
+    bool case2 = (det < 0);
+
+//  draws lines here
+    for (auto line: lines) {
+        line.setThickness(thickness);
+        std::vector<Pixel> newPixels = line.getPixelsAA();
+        pixels.insert(pixels.end(), newPixels.begin(), newPixels.end());
+    }
+
+    int radius = sqrt(pow(points[1].x() - points[0].x(), 2) + pow(points[1].y() - points[0].y(), 2) * 1.0);
+
+//  circle part
+    int dE = 3;
+    int dSE = 5 - 2 * radius;
+    int d = 1 - radius;
+    int x = radius;
+    int y = 0;
+
+    //TODO antialiasting for circle part
+
+    if (case1 && determinant(points[0], points[1], QPoint(x1, y1+radius)) > 0 && determinant(points[0], points[2], QPoint(x1, y1+radius)) < 0)
+        pixels.push_back(Pixel(x1, y1+radius));
+    else if (case2 && (determinant(points[0], points[1], QPoint(x1, y1+radius)) > 0 || determinant(points[0], points[2], QPoint(x1, y1+radius)) < 0))
+        pixels.push_back(Pixel(x1, y1+radius));
+
+    if (case1 && determinant(points[0], points[1], QPoint(x1, y1-radius)) > 0 && determinant(points[0], points[2], QPoint(x1, y1-radius)) < 0)
+        pixels.push_back(Pixel(x1, y1-radius));
+    else if (case2 && (determinant(points[0], points[1], QPoint(x1, y1-radius)) > 0 || determinant(points[0], points[2], QPoint(x1, y1-radius)) < 0))
+        pixels.push_back(Pixel(x1, y1-radius));
+
+    if (case1 && determinant(points[0], points[1], QPoint(x1+radius, y1)) > 0 && determinant(points[0], points[2], QPoint(x1+radius, y1)) < 0)
+        pixels.push_back(Pixel(x1+radius, y1));
+    else if (case2 && (determinant(points[0], points[1], QPoint(x1+radius, y1)) > 0 || determinant(points[0], points[2], QPoint(x1+radius, y1)) < 0))
+        pixels.push_back(Pixel(x1+radius, y1));
+
+    if (case1 && determinant(points[0], points[1], QPoint(x1-radius, y1)) > 0 && determinant(points[0], points[2], QPoint(x1-radius, y1)) < 0)
+        pixels.push_back(Pixel(x1-radius, y1));
+    else if (case2 && (determinant(points[0], points[1], QPoint(x1-radius, y1)) > 0 || determinant(points[0], points[2], QPoint(x1-radius, y1)) < 0))
+        pixels.push_back(Pixel(x1-radius, y1));
+
+    while (x > y)
+    {
+        y++;
+        if (d <= 0) {
+            d += dE;
+            dE += 2;
+            dSE += 2;
+        }
+        else {
+            d += dSE;
+            dE += 2;
+            dSE += 4;
+            x--;
+        }
+
+        if (x < y) break;
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 && determinant(points[0], points[2], QPoint(x+x1, y+y1)) < 0)
+            pixels.push_back(Pixel(x1+x,y1+y));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1+x, y1+y)) > 0 || determinant(points[0], points[2], QPoint(x1+x, y1+y)) < 0))
+            pixels.push_back(Pixel(x1+x,y1+y));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1-x,y1+y)) > 0 && determinant(points[0], points[2], QPoint(x1-x,y1+y)) < 0)
+            pixels.push_back(Pixel(x1-x,y1+y));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1-x,y1+y)) > 0 || determinant(points[0], points[2], QPoint(x1-x,y1+y)) < 0))
+            pixels.push_back(Pixel(x1-x,y1+y));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1+x,y1-y)) > 0 && determinant(points[0], points[2], QPoint(x1+x,y1-y)) < 0)
+            pixels.push_back(Pixel(x1+x,y1-y));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1+x,y1-y)) > 0 || determinant(points[0], points[2], QPoint(x1+x,y1-y)) < 0))
+            pixels.push_back(Pixel(x1+x,y1-y));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1-x,y1-y)) > 0 && determinant(points[0], points[2], QPoint(x1-x,y1-y)) < 0)
+            pixels.push_back(Pixel(x1-x,y1-y));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1-x,y1-y)) > 0 || determinant(points[0], points[2], QPoint(x1-x,y1-y)) < 0))
+            pixels.push_back(Pixel(x1-x,y1-y));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1+y,y1+x)) > 0 && determinant(points[0], points[2], QPoint(x1+y,y1+x)) < 0)
+            pixels.push_back(Pixel(x1+y,y1+x));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1+y,y1+x)) > 0 || determinant(points[0], points[2], QPoint(x1+y,y1+x)) < 0))
+            pixels.push_back(Pixel(x1+y,y1+x));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1+y,y1-x)) > 0 && determinant(points[0], points[2], QPoint(x1+y,y1-x)) < 0)
+            pixels.push_back(Pixel(x1+y,y1-x));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1+y,y1-x)) > 0 || determinant(points[0], points[2], QPoint(x1+y,y1-x)) < 0))
+            pixels.push_back(Pixel(x1+y,y1-x));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1-y,y1+x)) > 0 && determinant(points[0], points[2], QPoint(x1-y,y1+x)) < 0)
+            pixels.push_back(Pixel(x1-y,y1+x));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1-y,y1+x)) > 0 || determinant(points[0], points[2], QPoint(x1-y,y1+x)) < 0))
+            pixels.push_back(Pixel(x1-y,y1+x));
+
+        if (case1 && determinant(points[0], points[1], QPoint(x1-y,y1-x)) > 0 && determinant(points[0], points[2], QPoint(x1-y,y1-x)) < 0)
+            pixels.push_back(Pixel(x1-y,y1-x));
+        else if (case2 && (determinant(points[0], points[1], QPoint(x1-y,y1-x)) > 0 || determinant(points[0], points[2], QPoint(x1-y,y1-x)) < 0))
+            pixels.push_back(Pixel(x1-y,y1-x));
+    }
+
     return pixels;
 }
 

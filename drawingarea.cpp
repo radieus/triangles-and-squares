@@ -46,11 +46,19 @@ void DrawingArea::paintEvent(QPaintEvent*)
         ptr++;
     }
 
+    std::vector<Pixel> pixels;
+
     for (const auto &shape : shapes) {
-          std::vector<Pixel> pixels = shape->getPixels();
-          for (Pixel pix: pixels){
-              setPixel(pix.x, pix.y, shape->getColor(), pix.brightness);
-          }
+        if (antialiased) {
+            pixels = shape->getPixelsAA();
+        }
+        else {
+            pixels = shape->getPixels();
+        }
+
+        for (Pixel pix: pixels) {
+          setPixel(pix.x, pix.y, shape->getColor(), pix.brightness);
+        }
     }
 
     painter.drawImage(0, 0, image);
@@ -73,8 +81,6 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
 
 void DrawingArea::mouseMoveEvent(QMouseEvent *event)
 {
-    int pos_x = event->pos().x();
-    int pos_y = event->pos().y();
 
 }
 
@@ -162,7 +168,6 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             else {
                 arc->addPoint(startPoint);
             }
-
             break;
         }
 
@@ -176,7 +181,6 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             else {
                 polygon->addPoint(startPoint);
             }
-
             break;
         }
         case SELECT:

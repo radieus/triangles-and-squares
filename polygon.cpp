@@ -44,6 +44,16 @@ std::vector<Pixel> Polygon::getPixels()
 std::vector<Pixel> Polygon::getPixelsAA()
 {
     std::vector<Pixel> pixels;
+
+    Line newLine = Line(QPoint(points[points.size()-1].x(), points[points.size()-1].y()), QPoint(lines[0].getPoint(0).x(), lines[0].getPoint(0).y()));
+    lines.push_back(newLine);
+
+    for (auto line: lines) {
+        line.setThickness(thickness);
+        std::vector<Pixel> newPixels = line.getPixelsAA();
+        pixels.insert(pixels.end(), newPixels.begin(), newPixels.end());
+    }
+
     return pixels;
 }
 

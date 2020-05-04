@@ -23,15 +23,13 @@ QPoint Circle::getPoint(int i)
     return points[i];
 }
 
-std::vector<Pixel> Circle::getPixelsAA()
+std::vector<Pixel> Circle::getPixels()
 {
     std::vector<Pixel> pixels;
-
     int x1 = points[0].x();
     int y1 = points[0].y();
 
     for(int i = -thickness/2; i < thickness/2; i++) {
-
         int radius_ = radius + i;
         int dE = 3;
         int dSE = 5 - 2 * radius_;
@@ -44,9 +42,9 @@ std::vector<Pixel> Circle::getPixelsAA()
         pixels.push_back(Pixel(x1 + radius_, y1));
         pixels.push_back(Pixel(x1 - radius_, y1));
 
-        while (x > y)
-        {
+        while (x > y) {
             y++;
+
             if (d <= 0) {
                 d += dE;
                 dE += 2;
@@ -69,7 +67,6 @@ std::vector<Pixel> Circle::getPixelsAA()
             pixels.push_back(Pixel(x1+y,y1-x));
             pixels.push_back(Pixel(x1-y,y1+x));
             pixels.push_back(Pixel(x1-y,y1-x));
-
         }
     }
 
@@ -77,18 +74,15 @@ std::vector<Pixel> Circle::getPixelsAA()
 }
 
 
-std::vector<Pixel> Circle::getPixels()
+std::vector<Pixel> Circle::getPixelsAA()
 {
     std::vector<Pixel> pixels;
-
     int x1 = points[0].x();
     int y1 = points[0].y();
-
     float radiusX = radius;
     float radiusY = radius;
     float radiusX2 = radiusX * radiusX;
     float radiusY2 = radiusY * radiusY;
-
     float maxTransparency = 255;
 
     pixels.push_back(Pixel(x1, y1 + radius));
@@ -137,6 +131,7 @@ std::vector<Pixel> Circle::getPixels()
         pixels.push_back(Pixel(x1 + floorf(_x) - 1, y1 - floorf(_y), brightness2));
         pixels.push_back(Pixel(x1 - floorf(_x), y1 - floorf(_y), brightness1));
     }
+
     return pixels;
 }
 

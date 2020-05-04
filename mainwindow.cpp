@@ -56,7 +56,6 @@ void MainWindow::on_radioButton_toggled(bool checked)
 {
     if (checked) {
         scene->mymode = DrawingArea::TRANSFORM;
-        qDebug()<<scene->mymode;
     }
 }
 
@@ -158,10 +157,6 @@ void MainWindow::on_actionLoad_triggered()
     }
 }
 
-void MainWindow::on_antialiasBox_toggled(bool checked)
-{
-
-}
 
 void MainWindow::on_removeButton_clicked()
 {
@@ -171,5 +166,17 @@ void MainWindow::on_removeButton_clicked()
             update();
             break;
         }
+    }
+}
+
+void MainWindow::on_antialiasBox_clicked()
+{
+    if (scene->antialiased == false) {
+        scene->antialiased = true;
+        update();
+    }
+    else {
+        scene->antialiased = false;
+        update();
     }
 }

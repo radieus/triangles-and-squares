@@ -47,9 +47,9 @@ private slots:
 
     void on_actionLoad_triggered();
 
-    void on_antialiasBox_toggled(bool checked);
-
     void on_removeButton_clicked();
+
+    void on_antialiasBox_clicked();
 
 private:
     Ui::MainWindow *ui;
