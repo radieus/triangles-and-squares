@@ -146,6 +146,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="removeButton">
+        <property name="text">
+         <string>Remove</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="clearButton">
         <property name="text">
          <string>Clear</string>

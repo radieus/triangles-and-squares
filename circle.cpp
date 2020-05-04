@@ -105,15 +105,16 @@ std::vector<Pixel> Circle::getPixels()
         float transparency = roundf(error * maxTransparency);
         double brightness1 = transparency/255;
         double brightness2 = maxTransparency/255 - transparency/255;
+
         //up down
         pixels.push_back(Pixel(x1 + _x, y1 + floorf(_y), brightness1));
         pixels.push_back(Pixel(x1 - _x, y1 + floorf(_y), brightness1));
-        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y), brightness2));
-        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y), brightness2));
+        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y) + 1, brightness2));
+        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y) + 1, brightness2));
         pixels.push_back(Pixel(x1 + _x, y1 + floorf(_y) - 1, brightness2));
         pixels.push_back(Pixel(x1 - _x, y1 + floorf(_y) - 1, brightness2));
-        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y) - 1, brightness1));
-        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y) - 1, brightness1));
+        pixels.push_back(Pixel(x1 + _x, y1 - floorf(_y), brightness1));
+        pixels.push_back(Pixel(x1 - _x, y1 - floorf(_y), brightness1));
     }
 
     quarter = roundf(radiusY2 / sqrtf(radiusX2 + radiusY2));
@@ -125,7 +126,6 @@ std::vector<Pixel> Circle::getPixels()
         float transparency = roundf(error * maxTransparency);
         double brightness1 = transparency/255;
         double brightness2 = (maxTransparency - transparency)/255;
-        qDebug() << brightness1 << brightness2 << error;
 
         //left right
         pixels.push_back(Pixel(x1 + floorf(_x), y1 + floorf(_y), brightness1));

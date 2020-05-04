@@ -27,9 +27,9 @@ bool DrawingArea::setPixel(int x, int y, Color color, double brightness)
         return false;
     }
 
-    *(ptr + 3*x + 3*y*image.height()) = color.r + 255 - 255*brightness;
-    *(ptr + 3*x + 3*y*image.height() + 1) = color.g + 255 - 255*brightness;
-    *(ptr + 3*x + 3*y*image.height() + 2) = color.b + 255 - 255*brightness;
+    *(ptr + 3*x + 3*y*image.height()) = 255 - (255 - color.r)*brightness;
+    *(ptr + 3*x + 3*y*image.height() + 1) = 255 - (255 - color.g)*brightness;
+    *(ptr + 3*x + 3*y*image.height() + 2) = 255 - (255 - color.b)*brightness;
 
     return true;
 }
@@ -80,14 +80,18 @@ void DrawingArea::mouseMoveEvent(QMouseEvent *event)
 
 void DrawingArea::changeColorOfActiveShape(Color color)
 {
-    (*activeShape)->setColor(color);
-    update();
+    if (activeShape != nullptr) {
+        (*activeShape)->setColor(color);
+        update();
+    }
 }
 
 void DrawingArea::setShapeThickness(int thickness)
 {
-    (*activeShape)->setThickness(thickness);
-    update();
+    if (activeShape != nullptr){
+        (*activeShape)->setThickness(thickness);
+        update();
+    }
 }
 
 void DrawingArea::eraseShapes()
@@ -95,7 +99,6 @@ void DrawingArea::eraseShapes()
     shapes.clear();
     update();
 }
-
 
 void DrawingArea::paintPolygon()
 {
@@ -178,6 +181,8 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         }
         case SELECT:
         {
+//          long long minimal_distance = 1337133713371337;
+//          std::unique_ptr<Shape>* tmp_ptr;
             Pixel tmp_pix(startPoint.x(), startPoint.y());
             for (auto &shape : shapes) {
                   std::vector<Pixel> pixels = shape->getPixels();

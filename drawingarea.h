@@ -30,14 +30,13 @@ public:
 
     myMode mymode = DRAW;
     myShape myshape = LINE;
-    std::unique_ptr<Shape>* activeShape;
+    std::unique_ptr<Shape>* activeShape = nullptr;
     void changeColorOfActiveShape(Color color);
     void eraseShapes();
     void paintPolygon();
     void paintArc();
     void setShapeThickness(int thickness);
     std::vector<std::unique_ptr<Shape> > shapes;
-
     bool finished = false;
 
 protected:

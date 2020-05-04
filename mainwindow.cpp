@@ -157,3 +157,19 @@ void MainWindow::on_actionLoad_triggered()
         }
     }
 }
+
+void MainWindow::on_antialiasBox_toggled(bool checked)
+{
+
+}
+
+void MainWindow::on_removeButton_clicked()
+{
+    for (auto &shape : scene->shapes){
+        if (scene->activeShape == &shape){
+            scene->shapes.erase(std::remove(scene->shapes.begin(), scene->shapes.end(), shape), scene->shapes.end());
+            update();
+            break;
+        }
+    }
+}
