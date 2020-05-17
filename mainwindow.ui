@@ -64,6 +64,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="drawRectangleButton">
+        <property name="text">
+         <string>Rectangle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="paintPolygon">
         <property name="text">
          <string>Paint polygon</string>

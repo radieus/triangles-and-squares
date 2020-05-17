@@ -13,7 +13,6 @@ Line::Line(QPoint p1, QPoint p2)
 {
     points.push_back(p1);
     points.push_back(p2);
-
 }
 
 void Line::addPoint(QPoint p)
@@ -26,6 +25,7 @@ QPoint Line::getPoint(int i)
     return points[i];
 }
 
+//symmetric mid-point
 //std::vector<Pixel> Line::getPixels()
 //{
 //     std::vector<Pixel> pixels;
@@ -35,14 +35,14 @@ QPoint Line::getPoint(int i)
 //     int x2 = points[1].x();
 //     int y2 = points[1].y();
 
-//     if (abs(y2 - y1) > abs(x2 - x1)) {
-//         std::swap(x1, y1);
-//         std::swap(x2, y2);
+//     const bool steep = abs(y2 - y1) > abs(x2 - x1);
+//     if (steep) {
+//         std::swap(x1,y1);
+//         std::swap(x2,y2);
 //     }
-
 //     if (x1 > x2) {
-//         std::swap(x1, x2);
-//         std::swap(y1, y2);
+//         std::swap(x1,x2);
+//         std::swap(y1,y2);
 //     }
 
 //     int dx = x2 - x1;
@@ -77,8 +77,9 @@ QPoint Line::getPoint(int i)
 //     return pixels;
 //}
 
+//mid-point
 std::vector<Pixel> Line::getPixels()
-{   //https://community.khronos.org/t/drawing-line-bresenhem-midpoint-algorithm/58759/7
+{
     std::vector<Pixel> pixels;
 
     int x1 = points[0].x();

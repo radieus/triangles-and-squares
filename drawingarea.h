@@ -15,6 +15,7 @@
 #include "polygon.h"
 #include "arc.h"
 #include "circle.h"
+#include "rectangle.h"
 
 class DrawingArea : public QWidget
 {
@@ -25,7 +26,7 @@ public:
     void clearImage();
     bool setPixel(int x, int y, Color color, double brightness);
     enum myMode { DRAW, TRANSFORM };
-    enum myShape { LINE, CIRCLE, POLYGON, ARC, SELECT};
+    enum myShape { LINE, CIRCLE, POLYGON, ARC, RECTANGLE, SELECT};
     void _resize();
 
     myMode mymode = DRAW;

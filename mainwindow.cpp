@@ -42,6 +42,14 @@ void MainWindow::on_drawCircleButton_toggled(bool checked)
     }
 }
 
+void MainWindow::on_drawRectangleButton_toggled(bool checked)
+{
+    if (checked) {
+        scene->myshape = DrawingArea::RECTANGLE;
+        scene->mymode = DrawingArea::DRAW;
+    }
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     QColor dialog_color = QColorDialog::getColor(Qt::white, this, "Choose color");
@@ -154,6 +162,16 @@ void MainWindow::on_actionLoad_triggered()
             scene->shapes.push_back(std::move(current));
             update();
         }
+
+        else if (shape["shape"].get<std::string>() == "rectangle") {
+            std::unique_ptr<Shape> current = std::make_unique<Rectangle>(QPoint(shape["points"][0][0], shape["points"][0][1]),
+                                                                         QPoint(shape["points"][1][0], shape["points"][1][1]));
+
+            current->setColor(Color(shape["color"][0], shape["color"][1], shape["color"][2]));
+            current->setThickness(shape["thickness"].get<int>());
+            scene->shapes.push_back(std::move(current));
+            update();
+        }
     }
 }
 
@@ -180,3 +198,4 @@ void MainWindow::on_antialiasBox_clicked()
         update();
     }
 }
+

@@ -51,6 +51,8 @@ private slots:
 
     void on_antialiasBox_clicked();
 
+    void on_drawRectangleButton_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

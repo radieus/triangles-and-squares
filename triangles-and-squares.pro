@@ -23,7 +23,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pixel.cpp \
-    polygon.cpp
+    polygon.cpp \
+    rectangle.cpp
 
 HEADERS += \
     arc.h \
@@ -34,6 +35,7 @@ HEADERS += \
     mainwindow.h \
     pixel.h \
     polygon.h \
+    rectangle.h \
     shape.h
 
 FORMS += \

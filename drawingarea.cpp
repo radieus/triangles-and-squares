@@ -3,6 +3,7 @@
 #include "circle.h"
 #include "polygon.h"
 #include "arc.h"
+#include "rectangle.h"
 #include <QDebug>
 
 DrawingArea::DrawingArea(QWidget *parent) : QWidget(parent)
@@ -69,7 +70,6 @@ void DrawingArea::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         switch (mymode) {
         case DRAW:
-            qDebug() << startPoint.x() << " "<< startPoint.y();
             startPoint = event->pos();
             break;
         case TRANSFORM:
@@ -158,6 +158,14 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
             update();
             break;
         }
+        case RECTANGLE:
+        {
+            qDebug() << startPoint.x() << " "<< startPoint.y() << " "<< endPoint.x() << " "<< endPoint.y();
+            std::unique_ptr<Shape> rectangle = std::make_unique<Rectangle>(startPoint, endPoint);
+            shapes.push_back(std::move(rectangle));
+            update();
+            break;
+        }
         case ARC:
         {
             if (newArc) {
@@ -185,8 +193,6 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
         }
         case SELECT:
         {
-//          long long minimal_distance = 1337133713371337;
-//          std::unique_ptr<Shape>* tmp_ptr;
             Pixel tmp_pix(startPoint.x(), startPoint.y());
             for (auto &shape : shapes) {
                   std::vector<Pixel> pixels = shape->getPixels();
