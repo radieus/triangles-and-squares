@@ -6,38 +6,17 @@ class AETNode
 {
 public:
     AETNode(QPoint p1, QPoint p2);
-    double getMInv();
-    bool getIsSlopeZero();
-
-    int getYmin() const;
-    void setYmin(int y);
-
-    int getYmax() const;
-    void setYmax(int y);
-
-    double getXval() const;
-    void setXval(double x);
-
-    double getXmax() const;
-    void setXmax(double x);
-
-    int getDx() const;
-    void setDx(int dx);
-
-    int getDy() const;
-    void setDy(int dy);
-
-    double getMinv();
-
-private:
-    int yMin;
-    int yMax;
-    double xVal;
+    double yMax;
+    double yMin;
+    double xMin;
     double xMax;
-    int dx;
-    int dy;
-    int signCoeff;
-    int dummy = 0;
-};
 
+    double m_inverse;
+
+    bool isSlopeZero() const {
+        return (yMax - yMin == 0 ? true : false);
+    }
+
+    bool operator ==(const AETNode &b) const;
+};
 #endif // AETNODE_H

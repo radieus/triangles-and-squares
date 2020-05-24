@@ -20,7 +20,16 @@ public:
 
     std::vector<Line> lines;
 
+    void Clip(Polygon clipper);
+
     json getJsonFormat() override;
+
+    std::vector<Pixel> getFillingPixels();
+    void setFillColor(Color color);
+    bool isFilled = false;
+    Color fillCol = {0, 0, 0};
+    int yMinTemp;
+
 };
 
 #endif // POLYGON_H

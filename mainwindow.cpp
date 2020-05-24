@@ -199,3 +199,12 @@ void MainWindow::on_antialiasBox_clicked()
     }
 }
 
+void MainWindow::on_colorFillButton_clicked()
+{
+    QColor dialog_color = QColorDialog::getColor(Qt::white, this, "Choose color");
+    if (dialog_color.isValid()) {
+        int _r, _g, _b;
+        dialog_color.getRgb(&_r, &_g, &_b);
+        scene->fillActivePolygon(Color(_b, _g, _r));
+    }
+}

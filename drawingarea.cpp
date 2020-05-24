@@ -50,12 +50,13 @@ void DrawingArea::paintEvent(QPaintEvent*)
     std::vector<Pixel> pixels;
 
     for (const auto &shape : shapes) {
-        if (antialiased) {
-            pixels = shape->getPixelsAA();
+        Polygon *poly = dynamic_cast<Polygon*>(shape.get());
+        if (poly != nullptr && poly->isFilled) {
+            for (Pixel pix: poly->getFillingPixels())
+                setPixel(pix.x, pix.y, poly->fillCol, pix.brightness);
         }
-        else {
-            pixels = shape->getPixels();
-        }
+
+        pixels = antialiased ? shape->getPixelsAA() : shape->getPixels();
 
         for (Pixel pix: pixels) {
           setPixel(pix.x, pix.y, shape->getColor(), pix.brightness);
@@ -122,6 +123,17 @@ void DrawingArea::paintArc()
     newArc = true;
     arc = nullptr;
     update();
+}
+
+void DrawingArea::fillActivePolygon(Color color)
+{
+    if (activeShape != nullptr) {
+        Polygon *poly = dynamic_cast<Polygon*>(activeShape->get());
+        if (poly == nullptr)
+            return;
+        poly->setFillColor(color);
+        update();
+    }
 }
 
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)

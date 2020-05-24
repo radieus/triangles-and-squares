@@ -108,7 +108,14 @@
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>Color</string>
+         <string>Color border</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="colorFillButton">
+        <property name="text">
+         <string>Color fill</string>
         </property>
        </widget>
       </item>

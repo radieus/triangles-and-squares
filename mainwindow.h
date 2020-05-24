@@ -53,6 +53,8 @@ private slots:
 
     void on_drawRectangleButton_toggled(bool checked);
 
+    void on_colorFillButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

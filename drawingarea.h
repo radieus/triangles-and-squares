@@ -36,6 +36,7 @@ public:
     void eraseShapes();
     void paintPolygon();
     void paintArc();
+    void fillActivePolygon(Color color);
     void setShapeThickness(int thickness);
     std::vector<std::unique_ptr<Shape> > shapes;
     bool finished = false;
