@@ -58,9 +58,14 @@ void DrawingArea::paintEvent(QPaintEvent*)
 
         pixels = antialiased ? shape->getPixelsAA() : shape->getPixels();
 
-        for (Pixel pix: pixels) {
+        for (Pixel pix : pixels) {
           setPixel(pix.x, pix.y, shape->getColor(), pix.brightness);
         }
+    }
+
+    for (Pixel pix : pixelsToHighlight){
+        setPixel(pix.x, pix.y, {0,0,255}, pix.brightness);
+        qDebug()<< "x:" << pix.x << "y:"<< pix.y;
     }
 
     painter.drawImage(0, 0, image);
@@ -135,6 +140,7 @@ void DrawingArea::fillActivePolygon(Color color)
         update();
     }
 }
+
 
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {

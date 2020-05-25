@@ -208,3 +208,19 @@ void MainWindow::on_colorFillButton_clicked()
         scene->fillActivePolygon(Color(_b, _g, _r));
     }
 }
+
+void MainWindow::on_setBoundButton_clicked()
+{
+    scene->boundPolygon = dynamic_cast<Polygon*>(scene->activeShape->get());
+}
+
+void MainWindow::on_setClippedButton_clicked()
+{
+    scene->polygonToClip = dynamic_cast<Polygon*>(scene->activeShape->get());
+}
+
+void MainWindow::on_clipButton_clicked()
+{
+    scene->pixelsToHighlight = scene->polygonToClip->Clip(*scene->boundPolygon);
+    update();
+}

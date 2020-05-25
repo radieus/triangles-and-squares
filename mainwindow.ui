@@ -120,6 +120,27 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="setBoundButton">
+        <property name="text">
+         <string>Set bound</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="setClippedButton">
+        <property name="text">
+         <string>Set clipped</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clipButton">
+        <property name="text">
+         <string>Clip</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QSlider" name="thiccSlasher">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">

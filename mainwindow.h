@@ -55,6 +55,12 @@ private slots:
 
     void on_colorFillButton_clicked();
 
+    void on_setBoundButton_clicked();
+
+    void on_setClippedButton_clicked();
+
+    void on_clipButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

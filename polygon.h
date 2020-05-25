@@ -20,7 +20,7 @@ public:
 
     std::vector<Line> lines;
 
-    void Clip(Polygon clipper);
+    std::vector<Pixel> Clip(Polygon clipper);
 
     json getJsonFormat() override;
 

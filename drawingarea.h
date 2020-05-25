@@ -41,6 +41,9 @@ public:
     std::vector<std::unique_ptr<Shape> > shapes;
     bool finished = false;
     bool antialiased = false;
+    Polygon* boundPolygon = nullptr;
+    Polygon* polygonToClip = nullptr;
+    std::vector<Pixel> pixelsToHighlight;
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -54,6 +57,7 @@ private:
     QPoint endPoint;
     std::unique_ptr<Polygon> polygon = nullptr;
     std::unique_ptr<Arc> arc = nullptr;
+
 
     bool newPolygon = true;
     bool newArc = true;

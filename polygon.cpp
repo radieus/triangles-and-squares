@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <list>
 
-bool CompareByYmin(const AETNode& a, const AETNode& b){ return a.yMin < b.yMin; }
+bool CompareByXmin(const AETNode& a, const AETNode& b){ return a.xMin < b.xMin; }
 
 bool CompareByY(const QPoint& a, const QPoint& b){ return a.y() < b.y(); }
 
@@ -79,44 +79,58 @@ std::vector<Pixel> Polygon::getPixelsAA()
     return pixels;
 }
 
-void Polygon::Clip(Polygon clipper)
+std::vector<Pixel> Polygon::Clip(Polygon clipper)
 {
     std::vector<Pixel> pixels;
-    Polygon clippedShape;
     double tE;
     double tL;
+    qDebug() << "dzien dobry";
 
-    for (auto &line : lines){
+    //foreach line to be clipped
+    for (int i = 0; i < getPointsSize(); ++i){
         tE = 0;
         tL = 1;
-        QPoint p0 = line.getPoint(0);
-        QPoint p1 = line.getPoint(1);
+        QPoint p0 = this->getPoint(i);
+        QPoint p1 = this->getPoint((i + 1) % this->getPoints().size());
         QPoint D(p1.x() - p0.x(), p1.y() - p0.y());
 
-        for (auto &clipEdge : clipper.lines){
-            QPoint a = clipEdge.getPoint(0);
-            QPoint b = clipEdge.getPoint(1);
+        //foreach clip edge
+        for (int j = 0; j < clipper.getPointsSize(); ++j){
+            QPoint a = clipper.getPoint(i);
+            QPoint b = clipper.getPoint((i + 1) % clipper.getPoints().size());
+
+            //precalculating Ni and choose PEi for each edge
             QPoint PE((a.x() + b.x())/2, (a.y() + b.y())/2);
             QPoint N(b.y() - a.y(), b.x() - a.x());
-
             double dp = dotProduct(N, D);
-
-            double t = dotProduct(N, p0 - PE) / dotProduct(N * -1, D);
-            if (dp < 0)
-                tE = std::max(tE, t);
-            else if (dp > 0)
-                tL = std::min(tL, t);
-            else continue;
+            if (dp == 0) {
+                if (dotProduct(N, p0 - PE) > 0)
+                    continue; //discord
+            }
+            else {
+                double t = dotProduct(N, p0 - PE) / dotProduct(N * -1, D);
+                if (dp < 0)
+                    tE = std::max(tE, t);
+                else if (dp > 0)
+                    tL = std::min(tL, t);
+                else continue;
+            }
         }
+
         if (tE > tL)
             continue;
 
         Line tmpLine(QPoint(parametrized(tE, p0, p1).x(), parametrized(tE, p0, p1).y()),
                      QPoint(parametrized(tL, p0, p1).x(), parametrized(tL, p0, p1).y()));
 
+        qDebug() << "x0:" << tmpLine.getPoint(0).x() << "y0" << tmpLine.getPoint(0).y() << "x1" << tmpLine.getPoint(1).x() << "y1" << tmpLine.getPoint(1).y();
+
         pixels.insert(pixels.begin(), tmpLine.getPixels().begin(), tmpLine.getPixels().end());
     }
 
+    qDebug() << "do widzenia";
+
+    return pixels;
 }
 
 //    //precalculate Ni and choose PEi for each edge
@@ -127,10 +141,10 @@ void Polygon::Clip(Polygon clipper)
 //            tE = 0, tL = 1;
 //            foreach clip edge {
 //                if (Ni*D == 0) { // parallel lines
-//                if (N*(P0-PEi) > 0) { // outside of parallel edge
-//                    discard;
-//                    return;
-//                }
+//                    if (N*(P0-PEi) > 0) { // outside of parallel edge
+//                        discard;
+//                        return;
+//                    }
 //                } else {
 //                    calculate t; //of line and edge intersection
 //                    use signe of Ni*D to categorize as PE or PL;
@@ -190,10 +204,9 @@ std::vector<Pixel> Polygon::getFillingPixels()
         }
 
         //sort AET by x value
-        aet.nodes.sort( [](const AETNode& a, const AETNode& b) {
-                return a.xMin < b.xMin; });
+        aet.nodes.sort(CompareByXmin);
 
-        // fill pixels between pairs of intersections
+        //fill pixels between pairs of intersections
         int bucketSize = aet.nodes.size();
         std::vector<double> xVals;
         std::list<AETNode>::iterator it;
