@@ -3,6 +3,7 @@
 #include "drawingarea.h"
 #include <iostream>
 #include <fstream>
+#include <QMessageBox>
 
 using json = nlohmann::json;
 
@@ -223,4 +224,19 @@ void MainWindow::on_clipButton_clicked()
 {
     scene->pixelsToHighlight = scene->polygonToClip->Clip(*scene->boundPolygon);
     update();
+}
+
+void MainWindow::on_imageFillButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Choose"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
+
+    if (QString::compare(fileName, QString()) != 0) {
+        QImage image;
+
+        if (image.load(fileName) == 0)
+            QMessageBox::warning(this, "Warning", "Cannot open file");
+
+        scene->fillActivePolygon(image);
+    }
+
 }

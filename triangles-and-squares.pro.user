@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.1, 2020-05-04T21:53:06. -->
+<!-- Written by QtCreator 4.11.1, 2020-05-27T14:08:18. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -286,8 +286,9 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/radieus/Documents/github/triangles-and-squares/triangles-and-squares.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/radieus/Documents/github/triangles-and-squares/triangles-and-squares.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">triangles-and-squares2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/radieus/Desktop/triangles-and-squares/triangles-and-squares.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/radieus/Desktop/triangles-and-squares/triangles-and-squares.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

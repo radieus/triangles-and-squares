@@ -120,6 +120,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="imageFillButton">
+        <property name="text">
+         <string>Image fill</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="setBoundButton">
         <property name="text">
          <string>Set bound</string>

@@ -1,6 +1,7 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
+#include <QPixmap>
 #include "Shape.h"
 #include "line.h"
 
@@ -24,9 +25,19 @@ public:
 
     json getJsonFormat() override;
 
-    std::vector<Pixel> getFillingPixels();
+    std::vector<PixelWithColor> getFillingPixels();
     void setFillColor(Color color);
+    void setFillColor(QImage image);
     bool isFilled = false;
+
+    QImage fillingImage;
+    uchar* bits;
+
+    PixelWithColor getPixelFromImage(int x, int y);
+
+    bool isFilledWithImage = false;
+    bool isFilledWithColor = false;
+
     Color fillCol = {0, 0, 0};
     int yMinTemp;
 

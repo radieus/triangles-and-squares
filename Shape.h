@@ -5,6 +5,7 @@
 #include <vector>
 #include "color.h"
 #include "pixel.h"
+#include "pixelwithcolor.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;

@@ -21,6 +21,29 @@ void Polygon::setFillColor(Color color)
 {
      fillCol = color;
      isFilled = true;
+     isFilledWithColor = true;
+     isFilledWithImage = false;
+}
+
+void Polygon::setFillColor(QImage image)
+{
+    isFilled = true;
+    isFilledWithColor = false;
+    isFilledWithImage = true;
+    fillingImage = image.convertToFormat(QImage::Format_BGR888);
+    bits = fillingImage.bits();
+}
+
+PixelWithColor Polygon::getPixelFromImage(int x, int y) {
+    int newR, newB, newG;
+    int xx = x % fillingImage.width();
+    int yy = y % fillingImage.height();
+
+    int pos = xx*3 + yy*fillingImage.width()*3;
+    newB = *(bits + pos);
+    newG = *(bits + pos + 1);
+    newR = *(bits + pos + 2);
+    return PixelWithColor(x, y, newR, newB, newG);
 }
 
 Polygon::Polygon()
@@ -161,12 +184,15 @@ std::vector<Pixel> Polygon::Clip(Polygon clipper)
 //        }
 //    }
 
-std::vector<Pixel> Polygon::getFillingPixels()
+std::vector<PixelWithColor> Polygon::getFillingPixels()
 {
-    std::vector<Pixel> pixels;
+    std::vector<PixelWithColor> pixels;
     std::vector<int> indices;
     std::vector<std::pair<int, int> > tmp;
     AET aet = AET();
+    int fillR = fillCol.r;
+    int fillG = fillCol.g;
+    int fillB = fillCol.b;
 
     // create indices
     int i = 0;
@@ -217,7 +243,11 @@ std::vector<Pixel> Polygon::getFillingPixels()
             int beginX = ceil(xVals[k]);
             int endX = floor(xVals[k + 1]);
             for (int i = beginX; i <= endX; i++)
-                pixels.push_back(Pixel(i, y));
+                if (isFilledWithColor)
+                    pixels.push_back(PixelWithColor(i, y, fillR, fillG, fillB));
+                else
+                    pixels.push_back(getPixelFromImage(i, y));
+
         }
 
         y++;

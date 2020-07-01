@@ -25,6 +25,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pixel.cpp \
+    pixelwithcolor.cpp \
     polygon.cpp \
     rectangle.cpp
 
@@ -38,6 +39,7 @@ HEADERS += \
     line.h \
     mainwindow.h \
     pixel.h \
+    pixelwithcolor.h \
     polygon.h \
     rectangle.h \
     shape.h

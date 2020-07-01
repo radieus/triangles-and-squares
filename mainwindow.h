@@ -61,6 +61,8 @@ private slots:
 
     void on_clipButton_clicked();
 
+    void on_imageFillButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DrawingArea *scene;

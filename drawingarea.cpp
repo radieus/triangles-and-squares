@@ -52,8 +52,14 @@ void DrawingArea::paintEvent(QPaintEvent*)
     for (const auto &shape : shapes) {
         Polygon *poly = dynamic_cast<Polygon*>(shape.get());
         if (poly != nullptr && poly->isFilled) {
-            for (Pixel pix: poly->getFillingPixels())
-                setPixel(pix.x, pix.y, poly->fillCol, pix.brightness);
+            if (poly->isFilledWithColor){
+                for (PixelWithColor pix: poly->getFillingPixels())
+                    setPixel(pix.x, pix.y, poly->fillCol, pix.intensity);
+            }
+            else {
+                for (PixelWithColor pix: poly->getFillingPixels())
+                    setPixel(pix.x, pix.y, {pix.R, pix.G, pix.B}, pix.intensity);
+            }
         }
 
         pixels = antialiased ? shape->getPixelsAA() : shape->getPixels();
@@ -65,7 +71,7 @@ void DrawingArea::paintEvent(QPaintEvent*)
 
     for (Pixel pix : pixelsToHighlight){
         setPixel(pix.x, pix.y, {0,0,255}, pix.brightness);
-        qDebug()<< "x:" << pix.x << "y:"<< pix.y;
+       // qDebug()<< "x:" << pix.x << "y:"<< pix.y;
     }
 
     painter.drawImage(0, 0, image);
@@ -137,6 +143,17 @@ void DrawingArea::fillActivePolygon(Color color)
         if (poly == nullptr)
             return;
         poly->setFillColor(color);
+        update();
+    }
+}
+
+void DrawingArea::fillActivePolygon(QImage image)
+{
+    if (activeShape != nullptr) {
+        Polygon *poly = dynamic_cast<Polygon*>(activeShape->get());
+        if (poly == nullptr)
+            return;
+        poly->setFillColor(image);
         update();
     }
 }
