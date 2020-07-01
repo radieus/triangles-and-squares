@@ -33,6 +33,8 @@ public:
     QImage fillingImage;
     uchar* bits;
 
+    QString pathToImage;
+
     PixelWithColor getPixelFromImage(int x, int y);
 
     bool isFilledWithImage = false;
@@ -41,6 +43,8 @@ public:
     Color fillCol = {0, 0, 0};
     int yMinTemp;
 
+    void setPathToImage(const QString &value);
+    QString getPathToImage() const;
 };
 
 #endif // POLYGON_H

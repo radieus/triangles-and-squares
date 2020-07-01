@@ -34,6 +34,16 @@ void Polygon::setFillColor(QImage image)
     bits = fillingImage.bits();
 }
 
+QString Polygon::getPathToImage() const
+{
+    return pathToImage;
+}
+
+void Polygon::setPathToImage(const QString &value)
+{
+    pathToImage = value;
+}
+
 PixelWithColor Polygon::getPixelFromImage(int x, int y) {
     int newR, newB, newG;
     int xx = x % fillingImage.width();
@@ -270,6 +280,10 @@ json Polygon::getJsonFormat()
     }
     item["color"] = {getColor().r, getColor().g, getColor().b};
     item["thickness"] = getThickness();
+    if (isFilledWithColor)
+        item["fillcolor"] = {fillCol.r, fillCol.g, fillCol.b};
+    if (isFilledWithImage)
+        item["fillimage"] = getPathToImage().toUtf8();
 
     return item;
 }

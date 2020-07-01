@@ -147,17 +147,17 @@ void DrawingArea::fillActivePolygon(Color color)
     }
 }
 
-void DrawingArea::fillActivePolygon(QImage image)
+void DrawingArea::fillActivePolygon(QImage image, QString filename)
 {
     if (activeShape != nullptr) {
         Polygon *poly = dynamic_cast<Polygon*>(activeShape->get());
         if (poly == nullptr)
             return;
         poly->setFillColor(image);
+        poly->setPathToImage(filename);
         update();
     }
 }
-
 
 void DrawingArea::mouseReleaseEvent(QMouseEvent *event)
 {

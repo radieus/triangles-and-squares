@@ -37,7 +37,7 @@ public:
     void paintPolygon();
     void paintArc();
     void fillActivePolygon(Color color);
-    void fillActivePolygon(QImage image);
+    void fillActivePolygon(QImage image, QString filename);
     void setShapeThickness(int thickness);
     std::vector<std::unique_ptr<Shape> > shapes;
     bool finished = false;
@@ -58,8 +58,6 @@ private:
     QPoint endPoint;
     std::unique_ptr<Polygon> polygon = nullptr;
     std::unique_ptr<Arc> arc = nullptr;
-
-
     bool newPolygon = true;
     bool newArc = true;
 

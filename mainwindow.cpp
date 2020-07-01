@@ -153,13 +153,21 @@ void MainWindow::on_actionLoad_triggered()
         }
 
         else if (shape["shape"].get<std::string>() == "polygon") {
-            std::unique_ptr<Shape> current = std::make_unique<Polygon>();
+            std::unique_ptr<Polygon> current = std::make_unique<Polygon>();
+            QImage tmp;
             for (auto point : shape["points"]) {
                 current->addPoint(QPoint(point[0], point[1]));
             }
 
             current->setColor(Color(shape["color"][0], shape["color"][1], shape["color"][2]));
             current->setThickness(shape["thickness"].get<int>());
+            if (shape.find("fillcolor") != shape.end())
+                current->setFillColor(Color(shape["fillcolor"][0], shape["fillcolor"][1], shape["fillcolor"][2]));
+            if (shape.find("fillimage") != shape.end()){
+                QString imagepath = QString::fromStdString(std::string(shape["fillimage"]));
+                tmp.load(imagepath);
+                current->setFillColor(tmp);
+            }
             scene->shapes.push_back(std::move(current));
             update();
         }
@@ -231,12 +239,12 @@ void MainWindow::on_imageFillButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Choose"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
     if (QString::compare(fileName, QString()) != 0) {
+
         QImage image;
 
         if (image.load(fileName) == 0)
             QMessageBox::warning(this, "Warning", "Cannot open file");
 
-        scene->fillActivePolygon(image);
+        scene->fillActivePolygon(image, fileName);
     }
-
 }
